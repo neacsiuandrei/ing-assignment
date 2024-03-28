@@ -5,14 +5,25 @@ import com.ing.assignment.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public Product addProduct(String name, float price){
-        return  productRepository.save(new Product(name, price));
+        Product newProduct = new Product(name, price);
+        System.out.println("Product created with ID: " + newProduct.getId());
+        return  productRepository.save(newProduct);
+    }
+
+    public Optional<Product> getProductById(Long id){
+        return productRepository.findById(id);
     }
 
 }
