@@ -19,7 +19,6 @@ public class ProductService {
 
     public Product addProduct(String name, Double price){
         Product newProduct = new Product(name, price);
-        System.out.println("Product created with ID: " + newProduct.getId());
         return  productRepository.save(newProduct);
     }
 
@@ -35,6 +34,7 @@ public class ProductService {
         Optional<Product> product = getProductById(id);
         if(product.isPresent()){
             product.get().setPrice(newPrice);
+            productRepository.save(product.get());
             return product.get();
         }
         else {

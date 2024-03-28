@@ -1,6 +1,8 @@
 package com.ing.assignment.controller;
 
 import com.ing.assignment.domain.Product;
+import com.ing.assignment.exceptions.NegativePriceException;
+import com.ing.assignment.exceptions.ProductNotFoundException;
 import com.ing.assignment.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,9 @@ public class ProductController {
     @PostMapping("/add")
     @ResponseBody
     public ResponseEntity<Product> addProduct(@RequestParam String productName, @RequestParam Double productPrice){
+        if(productPrice<0){
+            throw new NegativePriceException(productPrice);
+        }
         Product newProduct = productService.addProduct(productName, productPrice);
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
@@ -39,7 +44,7 @@ public class ProductController {
             return new ResponseEntity<>(newProduct.get(), HttpStatus.OK);
         }
         else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ProductNotFoundException(productId);
         }
     }
 
@@ -53,7 +58,10 @@ public class ProductController {
     public ResponseEntity<Product> changeProductPrice(@RequestParam Long id, @RequestParam Double productPrice){
         Product product = productService.changePriceOfProduct(id, productPrice);
         if(product==null){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new ProductNotFoundException(id);
+        }
+        if(productPrice<0){
+            throw new NegativePriceException(productPrice);
         }
         return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
