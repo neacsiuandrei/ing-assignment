@@ -5,6 +5,7 @@ import com.ing.assignment.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,7 +17,7 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product addProduct(String name, float price){
+    public Product addProduct(String name, Double price){
         Product newProduct = new Product(name, price);
         System.out.println("Product created with ID: " + newProduct.getId());
         return  productRepository.save(newProduct);
@@ -24,6 +25,21 @@ public class ProductService {
 
     public Optional<Product> getProductById(Long id){
         return productRepository.findById(id);
+    }
+
+    public List<Product> getAllProducts(){
+        return productRepository.findAll();
+    }
+
+    public Product changePriceOfProduct(Long id, Double newPrice){
+        Optional<Product> product = getProductById(id);
+        if(product.isPresent()){
+            product.get().setPrice(newPrice);
+            return product.get();
+        }
+        else {
+            return null;
+        }
     }
 
 }
