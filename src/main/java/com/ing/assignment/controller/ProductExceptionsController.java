@@ -1,5 +1,6 @@
 package com.ing.assignment.controller;
 
+import com.ing.assignment.exceptions.EmptyProductNameException;
 import com.ing.assignment.exceptions.NegativePriceException;
 import com.ing.assignment.exceptions.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,13 @@ public class ProductExceptionsController {
     @ResponseBody
     public String handleProductNotFoundException(NegativePriceException e) {
         return "NEGATIVE PRICE EXCEPTION: " + e.getMessage();
+    }
+
+    @ExceptionHandler(EmptyProductNameException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public String handleEmptyProductNameException(EmptyProductNameException e) {
+        return "EMPTY PRODUCT NAME EXCEPTION: " + e.getMessage();
     }
 
 }

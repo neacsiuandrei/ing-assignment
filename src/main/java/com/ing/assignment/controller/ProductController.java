@@ -1,6 +1,7 @@
 package com.ing.assignment.controller;
 
 import com.ing.assignment.domain.Product;
+import com.ing.assignment.exceptions.EmptyProductNameException;
 import com.ing.assignment.exceptions.NegativePriceException;
 import com.ing.assignment.exceptions.ProductNotFoundException;
 import com.ing.assignment.services.ProductService;
@@ -30,6 +31,9 @@ public class ProductController {
     @PostMapping("/add")
     @ResponseBody
     public ResponseEntity<Product> addProduct(@RequestParam String productName, @RequestParam Double productPrice){
+        if(productName == null || productName.trim().isEmpty()){
+            throw new EmptyProductNameException();
+        }
         if(productPrice<0){
             throw new NegativePriceException(productPrice);
         }
