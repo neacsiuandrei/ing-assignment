@@ -19,7 +19,7 @@ public class SecurityConfig {
     public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.ignoringRequestMatchers("/products/*"))
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/products/add/**", "products/changePrice/**").hasRole("ADMIN")
+                        .requestMatchers("/products/add/**", "products/changePrice/**", "products/delete/**").hasRole("ADMIN")
                         .requestMatchers("/products/**").hasAnyRole("USER", "ADMIN"))
                 .httpBasic(Customizer.withDefaults());
         return httpSecurity.build();

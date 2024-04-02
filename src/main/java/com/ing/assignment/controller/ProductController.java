@@ -85,4 +85,14 @@ public class ProductController {
         return new ResponseEntity<>(product, HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<HttpStatus> deleteProductById(@RequestParam Long productId){
+        LOGGER.info("Received request to delete product with id {}...", productId);
+        if(!productService.deleteProduct(productId)){
+            throw new ProductNotFoundException(productId);
+        }
+        LOGGER.info("Product with id {} has been deleted.", productId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }

@@ -144,4 +144,24 @@ class ProductControllerTest {
         });
 
     }
+
+    @Test
+    void testDeleteProductById() {
+
+        when(productService.deleteProduct(1L)).thenReturn(true);
+
+        assertEquals(HttpStatus.OK,  productController.checkConnection().getStatusCode());
+
+    }
+
+    @Test
+    void testDeleteProductByIdWhenNotFound() {
+
+        when(productService.deleteProduct(1L)).thenReturn(false);
+
+        assertThrows(ProductNotFoundException.class, () -> {
+            productController.deleteProductById(1L);
+        });
+
+    }
 }

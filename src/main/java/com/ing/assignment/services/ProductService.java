@@ -2,7 +2,6 @@ package com.ing.assignment.services;
 
 import com.ing.assignment.domain.Product;
 import com.ing.assignment.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +38,17 @@ public class ProductService {
         }
         else {
             return null;
+        }
+    }
+
+    public boolean deleteProduct(Long id){
+        Optional<Product> product = getProductById(id);
+        if(product.isPresent()){
+            productRepository.deleteById(id);
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
