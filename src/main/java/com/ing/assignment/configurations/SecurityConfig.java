@@ -36,13 +36,13 @@ public class SecurityConfig {
 
         UserDetails basicUser = User.withDefaultPasswordEncoder()
                 .username("user")
-                .password("user")
+                .password("userPass")
                 .roles("USER")
                 .build();
 
         UserDetails adminUser = User.withDefaultPasswordEncoder()
                 .username("admin")
-                .password("admin")
+                .password("adminPass")
                 .roles("ADMIN")
                 .build();
 
